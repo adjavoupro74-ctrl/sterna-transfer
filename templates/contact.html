@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Contact - Sterna Transfer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <h1>Contactez-nous</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <p class="{{ category }}">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('contact') }}">
+        {{ form.hidden_tag() }}
+
+        <div>
+            {{ form.nom.label }}<br>
+            {{ form.nom(size=40) }}
+        </div><br>
+
+        <div>
+            {{ form.email.label }}<br>
+            {{ form.email(size=40) }}
+        </div><br>
+
+        <div>
+            {{ form.message.label }}<br>
+            {{ form.message(rows=6, cols=40) }}
+        </div><br>
+
+        <div>
+            {{ form.submit() }}
+        </div>
+    </form>
+
+</body>
+</html>

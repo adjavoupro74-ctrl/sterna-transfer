@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Corbeille</title>
+</head>
+<body>
+
+<div style="text-align:center; margin-bottom:20px;">
+    <button
+        onclick="clearTrash()"
+        style="
+            background:#e74c3c;
+            color:white;
+            border:none;
+            padding:10px 20px;
+            border-radius:6px;
+            cursor:pointer;
+            font-weight:bold;
+        ">
+        🗑 Vider la corbeille
+    </button>
+</div>
+
+<h1>🗑 Corbeille</h1>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Nom</th>
+        <th>Message</th>
+        <th>Action</th>
+    </tr>
+
+    {% for msg in messages %}
+    <tr id="row-{{ msg['id'] }}">
+        <td>{{ msg['id'] }}</td>
+        <td>{{ msg['nom'] }}</td>
+        <td>{{ msg['message'] }}</td>
+        <td>
+            <button onclick="restoreMessage({{ msg['id'] }}, this)">
+                Restaurer
+            </button>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>
+
+<script>
+function clearTrash() {
+    if (!confirm("⚠️ Supprimer définitivement tous les messages ?")) return;
+
+    fetch("/admin/trash/clear", {
+        method: "POST"
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (!data.success) return;
+
+        // vider le tableau
+        const table = document.querySelector("table");
+        if (table) {
+            table.remove();
+        }
+
+        // message vide
+        const emptyMsg = document.createElement("p");
+        emptyMsg.innerText = "🧹 Corbeille vidée avec succès";
+        emptyMsg.style.textAlign = "center";
+        emptyMsg.style.fontWeight = "bold";
+
+        document.body.appendChild(emptyMsg);
+    })
+    .catch(err => console.error(err));
+}
+</script>

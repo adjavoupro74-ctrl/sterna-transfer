@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Sterna Transfer – Accueil</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            text-align: center;
+            padding: 80px;
+        }
+        h1 {
+            color: #1f3c88;
+        }
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: bold;
+            color: #1f3c88;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .box {
+            margin-top: 40px;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="{{ url_for('home') }}">Accueil</a>
+        <a href="{{ url_for('about') }}">À propos</a>
+        <a href="{{ url_for('services') }}">Services</a>
+        <a href="{{ url_for('transfer') }}">Transfert</a>
+        <a href="{{ url_for('contact') }}">Contact</a>
+        <a href="{{ url_for('login') }}">Admin</a>
+    </nav>
+
+    <div class="box">
+        <h1>Sterna Transfer</h1>
+        <p>Transferts d'argent internationaux simples, rapides et sécurisés.</p>
+        <p><strong>Togo 🇹🇬 ⇄ France 🇫🇷</strong></p>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Simulateur de transfert - Sterna Transfer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Simulateur de transfert</h1>
+    <p>Convertissez vos montants entre CFA et EUR</p>
+
+    <form method="POST" action="/transfer">
+        <label>Montant :</label>
+        <input type="text" name="montant" required><br><br>
+
+        <label>Devise de départ :</label>
+        <select name="devise_depart">
+            <option value="CFA">CFA</option>
+            <option value="EUR">EUR</option>
+        </select><br><br>
+
+        <label>Devise d'arrivée :</label>
+        <select name="devise_arrivee">
+            <option value="EUR">EUR</option>
+            <option value="CFA">CFA</option>
+        </select><br><br>
+
+        <button type="submit">Calculer</button>
+    </form>
+
+    {% if result is not none %}
+        <h2>Résultat :</h2>
+        <p>{{ result }}</p>
+    {% endif %}
+
+</body>
+</html>

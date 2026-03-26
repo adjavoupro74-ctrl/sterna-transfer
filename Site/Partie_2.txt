@@ -1,0 +1,6 @@
+Index:  http://127.0.0.1:5000 
+A propos:  http://127.0.0.1:5000/about
+Nos services:  http://127.0.0.1:5000/services
+Contact:   http://127.0.0.1:5000/contact
+http://127.0.0.1:5000/contact
+Simulateur de transfert: http://127.0.0.1:5000/transfer

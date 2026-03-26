@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Corbeille - Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<h1>🗑 Corbeille</h1>
+
+<a href="{{ url_for('admin') }}">⬅ Retour admin</a>
+
+<table border="1" cellpadding="10">
+    <tr>
+        <th>ID</th>
+        <th>Nom</th>
+        <th>Email</th>
+        <th>Message</th>
+        <th>Date</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for msg in messages %}
+    <tr>
+        <td>{{ msg['id'] }}</td>
+        <td>{{ msg['nom'] }}</td>
+        <td>{{ msg['email'] }}</td>
+        <td>{{ msg['message'] }}</td>
+        <td>{{ msg['date'] }}</td>
+        <td>
+            <form method="POST" action="{{ url_for('empty_trash') }}">
+                <button type="submit" class="empty-btn">
+                    🧹 Vider la corbeille
+                </button>
+            </form>
+
+            <form method="POST" action="{{ url_for('restore_message', msg_id=msg['id']) }}" style="display:inline;">
+                <button type="submit">♻ Restaurer</button>
+            </form>
+
+            <form method="POST" action="{{ url_for('delete_permanent', msg_id=msg['id']) }}" style="display:inline;">
+                <button type="submit">❌ Supprimer définitivement</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+
+</table>
+
+</body>
+</html>
