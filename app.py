@@ -16,6 +16,7 @@ from flask import send_file
 import io
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 from reportlab.lib import colors
+from flask import request
 
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
@@ -161,46 +162,27 @@ def contact():
 
     if request.method == "POST":
         try:
-            nom = form.nom.data
-            email = form.email.data
-            message = form.message.data
-            date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            nom = request.form.get("nom")
+            email = request.form.get("email")
+            message = request.form.get("message")
 
-            print("🔥 CONTACT OK")
-            print(nom, email, message)
+            print("🔥 DATA:", nom, email, message)
 
-            # 💾 DB
             conn = sqlite3.connect(DB_NAME)
             c = conn.cursor()
             c.execute(
-                "INSERT INTO messages (nom, email, message, date) VALUES (?, ?, ?, ?)",
-                (nom, email, message, date)
+                "INSERT INTO messages (nom, email, message, date) VALUES (?, ?, ?, datetime('now'))",
+                (nom, email, message)
             )
             conn.commit()
             conn.close()
 
             print("✅ DB OK")
 
-            # 📧 EMAIL (temporairement désactivé)
-            try:
-                print("📧 Tentative email...")
-                msg = Message(
-                    subject="Test",
-                    sender=app.config.get("MAIL_USERNAME"),
-                    recipients=["adjavoupro74@gmail.com"],
-                    body="Test email"
-                )
-                mail.send(msg)
-                print("✅ EMAIL OK")
-            except Exception as e:
-                print("❌ EMAIL ERROR:", e)
-
-            flash("Message envoyé ✅", "success")
-            return redirect(url_for("contact"))
+            return "MESSAGE OK"
 
         except Exception as e:
-            print("💥 ERREUR GLOBALE :", e)
-            return "Erreur serveur: " + str(e)
+            return "💥 ERREUR : " + str(e)
 
     return render_template("contact.html", form=form)
 
