@@ -1468,3 +1468,13 @@ MemoryError
 2026-03-26 12:15:30,024 | INFO | 127.0.0.1 - - [26/Mar/2026 12:15:30] "GET /admin HTTP/1.1" 200 -
 2026-03-26 12:15:30,327 | INFO | 127.0.0.1 - - [26/Mar/2026 12:15:30] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
 2026-03-26 12:17:09,389 | INFO | 127.0.0.1 - - [26/Mar/2026 12:17:09] "GET /admin/export/pdf HTTP/1.1" 200 -
+2026-03-27 08:21:03,619 | INFO | [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-03-27 08:21:03,627 | INFO | [33mPress CTRL+C to quit[0m
+2026-03-27 08:21:03,648 | INFO |  * Restarting with stat
+2026-03-27 08:21:05,513 | WARNING |  * Debugger is active!
+2026-03-27 08:21:05,518 | INFO |  * Debugger PIN: 991-912-484
+2026-03-27 08:30:59,700 | INFO |  * Detected change in 'C:\\Users\\HP\\sterna_transfer\\app.py', reloading
+2026-03-27 08:30:59,950 | INFO |  * Restarting with stat
+2026-03-27 08:31:02,957 | WARNING |  * Debugger is active!
+2026-03-27 08:31:02,959 | INFO |  * Debugger PIN: 991-912-484

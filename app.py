@@ -169,6 +169,7 @@ def contact():
 
         # 🔹 Enregistrement en base
         conn = sqlite3.connect(DB_NAME)
+        print("DB PATH =", DB_NAME)
         c = conn.cursor()
         c.execute(
             "INSERT INTO messages (nom, email, message, date) VALUES (?, ?, ?, ?)",
@@ -181,7 +182,7 @@ def contact():
         try:
             msg = Message(
                 subject="📩 Nouveau message - Sterna Transfer",
-                sender=email,
+                sender="adjavoupro74@gmail.com",
                 recipients=["adjavoupro74@gmail.com"],
                 body=f"""Nom : {nom}
 Email : {email}
@@ -190,7 +191,7 @@ Message :
 {message}
 """
             )
-            mail.send(msg)
+            print("EMAIL DÉSACTIVÉ")
             print("📧 Email envoyé avec succès")
         except Exception as e:
             print("❌ Erreur email :", e)
