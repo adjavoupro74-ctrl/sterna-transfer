@@ -91,8 +91,8 @@ app.config.update(
     MAIL_SERVER="smtp.gmail.com",
     MAIL_PORT=465,
     MAIL_USE_SSL=True,
-    MAIL_USERNAME="adjavoupro74@gmail.com",
-    MAIL_PASSWORD="wfeissyiqpxlfjpw"
+    MAIL_USERNAME=os.environ.get("MAIL_USERNAME"),
+    MAIL_PASSWORD=os.environ.get("MAIL_PASSWORD")
 )
 mail = Mail(app)
 
@@ -182,16 +182,20 @@ def contact():
         try:
             msg = Message(
                 subject="📩 Nouveau message - Sterna Transfer",
-                sender="adjavoupro74@gmail.com",
+                sender=app.config["MAIL_USERNAME"],
                 recipients=["adjavoupro74@gmail.com"],
                 body=f"""Nom : {nom}
-Email : {email}
+        Email : {email}
 
-Message :
-{message}
-"""
+        Message :
+        {message}
+        """
             )
-            print("EMAIL DÉSACTIVÉ")
+            print("📧 Tentative envoi email...")
+            print("USER:", app.config["MAIL_USERNAME"])
+
+            mail.send(msg)
+
             print("📧 Email envoyé avec succès")
         except Exception as e:
             print("❌ Erreur email :", e)
