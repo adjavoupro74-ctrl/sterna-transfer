@@ -38,6 +38,7 @@ import logging
 # CONFIGURATION
 # =========================
 app = Flask(__name__)
+app.config["WTF_CSRF_ENABLED"] = False
 
 import os
 app.secret_key = os.environ.get("SECRET_KEY", "change_me_in_production")
