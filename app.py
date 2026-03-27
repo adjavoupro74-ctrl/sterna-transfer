@@ -158,7 +158,7 @@ def transfer():
 def contact():
     form = ContactForm()
 
-    if form.validate_on_submit():
+    if request.method == "POST":
         try:
             nom = form.nom.data
             email = form.email.data
