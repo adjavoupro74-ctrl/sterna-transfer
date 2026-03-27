@@ -158,15 +158,11 @@ def transfer():
 # =========================
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
-    form = ContactForm()
-
     if request.method == "POST":
         try:
             nom = request.form.get("nom")
             email = request.form.get("email")
             message = request.form.get("message")
-
-            print("🔥 DATA:", nom, email, message)
 
             conn = sqlite3.connect(DB_NAME)
             c = conn.cursor()
@@ -179,12 +175,31 @@ def contact():
 
             print("✅ DB OK")
 
-            return "MESSAGE OK"
+            # 📧 EMAIL (on remet après)
+            try:
+                msg = Message(
+                    subject="📩 Nouveau message - Sterna Transfer",
+                    sender=app.config.get("MAIL_USERNAME"),
+                    recipients=["adjavoupro74@gmail.com"],
+                    body=f"""
+Nom : {nom}
+Email : {email}
+
+Message :
+{message}
+"""
+                )
+                mail.send(msg)
+                print("✅ EMAIL OK")
+            except Exception as e:
+                print("❌ EMAIL ERROR:", e)
+
+            return "Message envoyé avec succès ✅"
 
         except Exception as e:
-            return "💥 ERREUR : " + str(e)
+            return "Erreur serveur: " + str(e)
 
-    return render_template("contact.html", form=form)
+    return render_template("contact.html")
 
 # =========================
 # AUTHENTIFICATION ADMIN

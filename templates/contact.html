@@ -17,27 +17,16 @@
         {% endif %}
     {% endwith %}
 
-    <form method="POST" action="{{ url_for('contact') }}">
-        {{ form.hidden_tag() }}
+    <form method="POST">
 
-        <div>
-            {{ form.nom.label }}<br>
-            {{ form.nom(size=40) }}
-        </div><br>
+        <input type="text" name="nom" placeholder="Votre nom" required><br><br>
 
-        <div>
-            {{ form.email.label }}<br>
-            {{ form.email(size=40) }}
-        </div><br>
+        <input type="email" name="email" placeholder="Votre email" required><br><br>
 
-        <div>
-            {{ form.message.label }}<br>
-            {{ form.message(rows=6, cols=40) }}
-        </div><br>
+        <textarea name="message" placeholder="Votre message" required></textarea><br><br>
 
-        <div>
-            {{ form.submit() }}
-        </div>
+        <button type="submit">Envoyer</button>
+
     </form>
 
 </body>
