@@ -192,13 +192,14 @@ def contact():
         """
             )
             print("📧 Tentative envoi email...")
-            print("USER:", app.config["MAIL_USERNAME"])
+            print("MAIL_USERNAME =", app.config["MAIL_USERNAME"])
+            print("MAIL_PASSWORD =", "OK" if app.config["MAIL_PASSWORD"] else "VIDE")
 
             mail.send(msg)
 
-            print("📧 Email envoyé avec succès")
+            print("✅ EMAIL ENVOYÉ")
         except Exception as e:
-            print("❌ Erreur email :", e)
+            print("❌ Erreur email :", str(e))
 
         flash("Votre message a bien été envoyé ✅", "success")
         return redirect(url_for("contact"))
