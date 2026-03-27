@@ -158,51 +158,47 @@ def contact():
     form = ContactForm()
 
     if form.validate_on_submit():
-        # 🔹 Données via WTForms (PAS request.form)
-        nom = form.nom.data
-        email = form.email.data
-        message = form.message.data
-        date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-        print("🔥 ROUTE CONTACT APPELÉE 🔥")
-        print("FORM DATA =", nom, email, message)
-
-        # 🔹 Enregistrement en base
-        conn = sqlite3.connect(DB_NAME)
-        print("DB PATH =", DB_NAME)
-        c = conn.cursor()
-        c.execute(
-            "INSERT INTO messages (nom, email, message, date) VALUES (?, ?, ?, ?)",
-            (nom, email, message, date)
-        )
-        conn.commit()
-        conn.close()
-
-        # 🔹 Envoi email
         try:
-            msg = Message(
-                subject="📩 Nouveau message - Sterna Transfer",
-                sender=app.config["MAIL_USERNAME"],
-                recipients=["adjavoupro74@gmail.com"],
-                body=f"""Nom : {nom}
-        Email : {email}
+            nom = form.nom.data
+            email = form.email.data
+            message = form.message.data
+            date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        Message :
-        {message}
-        """
+            print("🔥 CONTACT OK")
+            print(nom, email, message)
+
+            # 💾 DB
+            conn = sqlite3.connect(DB_NAME)
+            c = conn.cursor()
+            c.execute(
+                "INSERT INTO messages (nom, email, message, date) VALUES (?, ?, ?, ?)",
+                (nom, email, message, date)
             )
-            print("📧 Tentative envoi email...")
-            print("MAIL_USERNAME =", app.config["MAIL_USERNAME"])
-            print("MAIL_PASSWORD =", "OK" if app.config["MAIL_PASSWORD"] else "VIDE")
+            conn.commit()
+            conn.close()
 
-            mail.send(msg)
+            print("✅ DB OK")
 
-            print("✅ EMAIL ENVOYÉ")
+            # 📧 EMAIL (temporairement désactivé)
+            try:
+                print("📧 Tentative email...")
+                msg = Message(
+                    subject="Test",
+                    sender=app.config.get("MAIL_USERNAME"),
+                    recipients=["adjavoupro74@gmail.com"],
+                    body="Test email"
+                )
+                mail.send(msg)
+                print("✅ EMAIL OK")
+            except Exception as e:
+                print("❌ EMAIL ERROR:", e)
+
+            flash("Message envoyé ✅", "success")
+            return redirect(url_for("contact"))
+
         except Exception as e:
-            print("❌ Erreur email :", str(e))
-
-        flash("Votre message a bien été envoyé ✅", "success")
-        return redirect(url_for("contact"))
+            print("💥 ERREUR GLOBALE :", e)
+            return "Erreur serveur: " + str(e)
 
     return render_template("contact.html", form=form)
 
