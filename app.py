@@ -156,6 +156,8 @@ def transfer():
 # =========================
 # CONTACT
 # =========================
+from flask_mail import Message
+
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
     if request.method == "POST":
@@ -164,7 +166,7 @@ def contact():
             email = request.form.get("email")
             message = request.form.get("message")
 
-            # 💾 ENREGISTREMENT DB
+            # 💾 Sauvegarde DB
             conn = sqlite3.connect(DB_NAME)
             c = conn.cursor()
             c.execute(
@@ -174,31 +176,26 @@ def contact():
             conn.commit()
             conn.close()
 
-            print("✅ DB OK")
+            print("📧 Tentative envoi email...")
 
-            # 📧 ENVOI EMAIL (AVEC DEBUG)
             try:
-                print("📧 Tentative envoi email...")
-
                 msg = Message(
-                    subject="📩 Nouveau message - Sterna Transfer",
-                    sender=app.config.get("MAIL_USERNAME"),
-                    recipients=["adjavoupro74@gmail.com"],
-                    body=f"""
-Nom : {nom}
-Email : {email}
-
-Message :
-{message}
-"""
+                    subject="Nouveau message",
+                    sender=app.config['MAIL_USERNAME'],
+                    recipients=["adjavoupro74@gmail.com"]
                 )
+                msg.body = f"""
+Nom: {nom}
+Email: {email}
+Message:
+{message}
+                """
 
                 mail.send(msg)
-
                 print("✅ Email envoyé")
 
-            except Exception as e:
-                print("❌ ERREUR EMAIL :", e)
+            except Exception as mail_error:
+                print("❌ ERREUR EMAIL:", mail_error)
 
             return "Message envoyé avec succès ✅"
 
