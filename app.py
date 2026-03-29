@@ -173,27 +173,6 @@ def contact():
             conn.commit()
             conn.close()
 
-            print("✅ DB OK")
-
-            # 📧 EMAIL (on remet après)
-            try:
-                msg = Message(
-                    subject="📩 Nouveau message - Sterna Transfer",
-                    sender=app.config.get("MAIL_USERNAME"),
-                    recipients=["adjavoupro74@gmail.com"],
-                    body=f"""
-Nom : {nom}
-Email : {email}
-
-Message :
-{message}
-"""
-                )
-                mail.send(msg)
-                print("✅ EMAIL OK")
-            except Exception as e:
-                print("❌ EMAIL ERROR:", e)
-
             return "Message envoyé avec succès ✅"
 
         except Exception as e:
