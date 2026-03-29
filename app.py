@@ -164,6 +164,7 @@ def contact():
             email = request.form.get("email")
             message = request.form.get("message")
 
+            # 💾 ENREGISTREMENT DB
             conn = sqlite3.connect(DB_NAME)
             c = conn.cursor()
             c.execute(
@@ -172,6 +173,32 @@ def contact():
             )
             conn.commit()
             conn.close()
+
+            print("✅ DB OK")
+
+            # 📧 ENVOI EMAIL (AVEC DEBUG)
+            try:
+                print("📧 Tentative envoi email...")
+
+                msg = Message(
+                    subject="📩 Nouveau message - Sterna Transfer",
+                    sender=app.config.get("MAIL_USERNAME"),
+                    recipients=["adjavoupro74@gmail.com"],
+                    body=f"""
+Nom : {nom}
+Email : {email}
+
+Message :
+{message}
+"""
+                )
+
+                mail.send(msg)
+
+                print("✅ Email envoyé")
+
+            except Exception as e:
+                print("❌ ERREUR EMAIL :", e)
 
             return "Message envoyé avec succès ✅"
 
